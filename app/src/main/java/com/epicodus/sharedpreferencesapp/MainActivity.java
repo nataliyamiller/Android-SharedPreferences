@@ -10,6 +10,7 @@ import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
     private static final String PREFS_FILE = "com.epicodus.sharedpreferecesapp.preferences";
+    private static final String KEY_EDITTEXT = "key_edittext";
     private SharedPreferences.Editor mEditor;
     private SharedPreferences mSharedPreferences;
     private EditText mEditText;
@@ -22,6 +23,16 @@ public class MainActivity extends AppCompatActivity {
         mEditText = (EditText) findViewById(R.id.editText);
         mSharedPreferences = getSharedPreferences(PREFS_FILE, Context.MODE_PRIVATE);
         mEditor = mSharedPreferences.edit();
+        String editTextString = mSharedPreferences.getString(KEY_EDITTEXT, "");
+        mEditText.setText(editTextString);
+
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        mEditor.putString(KEY_EDITTEXT, mEditText.getText().toString());
+        mEditor.apply();
+    }
 }
